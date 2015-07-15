@@ -11,11 +11,6 @@ A wrapper to allow a synchronous coding style for Stripe. Utilized the `makeSync
 
 Wraps all the methods in ['stripe-node'](https://github.com/stripe/stripe-node).
 
-```javascript
-Stripe = StripeSync(key);
-Stripe.customers.create([options]);
-```
-
 Stripe methods return the following object:
 
 ```javascript
@@ -28,45 +23,17 @@ This works only on the server since the client doesn't have `fibers/future`.
 
 ### Example
 
-`/server/methods.js`
+`/server/server.js`
 
 ```javascript
 
-Meteor.methods({
+Stripe = StripeMakeSync(key);
 
-  createStripeCustomer: function(options){
+var result = Stripe.customers.create({ email: "none@example.com" });
 
-    // remember that result will be an object - {error:  error, data: data}
-
-    var result = Stripe.customers.create(options);
-
-    if( result.error === null ){
-      // no error
-      return result.data;
-    } else {
-      // handle the particular error
-      throw new Meteor.Error(result.error);
-    };
-
-  },
-  
-});
+console.log("Here is the result of creating a Stripe customer: ", result);
 
 ```
-
-Now when we do 
-
-```javascript
-Meteor.call("createStripeCustomer", { email: "none@example.com" } , function(error, result){
-  if(error){
-    console.log("here is the error: ", error)
-  } else {
-    console.log("success: ", result);
-  }
-});
-```
-
-You get the actual error returned from the external API or the error-less result.
 
 ### Contributing
 

@@ -16,15 +16,9 @@ Package.onUse(function(api) {
   api.versionsFrom('METEOR@0.9.0');
 
   api.use('underscore', 'server');
-  api.use('hpp:makesync', 'server');
+  api.use('hpp:makesync@0.0.1', 'server');
 
   api.addFiles('stripemakesync.js', 'server');
 
   api.export('StripeMakeSync', 'server');
-});
-
-Package.onTest(function(api) {
-  api.use('tinytest');
-  api.use('hpp:stripemakesync');
-  api.addFiles('stripemakesync-tests.js');
 });
