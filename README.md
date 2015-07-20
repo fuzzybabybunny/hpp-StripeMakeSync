@@ -1,7 +1,7 @@
 StripeMakeSync
 =========================
 
-A wrapper to allow a synchronous coding style for Stripe. Utilized the `makeSync` package found [`here.`](https://github.com/fuzzybabybunny/hpp-makeSync)
+A wrapper to allow a synchronous coding style for Stripe. Utilizes the `makeSync` package found [`here.`](https://github.com/fuzzybabybunny/hpp-makeSync)
 
 ### Install
 
@@ -9,7 +9,13 @@ A wrapper to allow a synchronous coding style for Stripe. Utilized the `makeSync
 
 ### How it Works
 
-Wraps all the methods in ['stripe-node'](https://github.com/stripe/stripe-node).
+**Client**
+
+Use `Stripe` exactly how you would use it based on the Official Stripe docs.
+
+**Server** 
+
+This package wraps all the methods in ['stripe-node'](https://github.com/stripe/stripe-node) with `makeSync()` described above. 
 
 Stripe methods return the following object:
 
@@ -32,6 +38,16 @@ Stripe = StripeMakeSync(key);
 var result = Stripe.customers.create({ email: "none@example.com" });
 
 console.log("Here is the result of creating a Stripe customer: ", result);
+
+if( result.error === null ){
+  // no error
+  // do something since this function call was a success
+  return result.data;
+} else {
+  // handle the particular error
+  // result.error will contain the actual error returned by Stripe's servers
+  throw new Meteor.Error(//error arguments, possible derived from result.error);
+};
 
 ```
 
